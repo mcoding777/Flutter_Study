@@ -45,6 +45,18 @@ class _TodoListPageState extends State<TodoListPage> {
     });
   }
 
+  void _deleteTodo(Todo todo) {
+    setState(() {
+      _items.remove(todo);
+    });
+  }
+
+  void _toggleTodo(Todo todo) {
+    setState(() {
+      todo.isDone = !todo.isDone;
+    });
+  }
+
   @override
   void dispose() {
     _todoController.dispose();
@@ -54,7 +66,11 @@ class _TodoListPageState extends State<TodoListPage> {
   Widget _buildItemWidget(Todo todo) {
     return ListTile(
       // 높이가 고정된 1개의 행, 텍스트나 아이콘 등을 포함한다
-      onTap: () {},
+      onTap: () {
+        setState(() {
+          _toggleTodo(todo);
+        });
+      },
       title: Text(
         todo.title,
         style: todo.isDone
@@ -66,7 +82,11 @@ class _TodoListPageState extends State<TodoListPage> {
       ),
       trailing: IconButton(
         icon: const Icon(Icons.delete_forever),
-        onPressed: () {},
+        onPressed: () {
+          setState(() {
+            _deleteTodo(todo);
+          });
+        },
       ),
     );
   }

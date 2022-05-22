@@ -75,6 +75,10 @@ class _StopWatchPageState extends State<StopWatchPage> {
     });
   }
 
+  void _recordLapTime(String time) {
+    _lapTimes.insert(0, '${_lapTimes.length + 1}등 $time');
+  }
+
   Widget _buildBody() {
     var sec = _time ~/ 100; // 초 (몫을 구하는 연산자 ~/)
     var hundredth =
@@ -108,7 +112,7 @@ class _StopWatchPageState extends State<StopWatchPage> {
                 width: 100,
                 height: 200,
                 child: ListView(
-                  children: const <Widget>[],
+                  children: _lapTimes.map((time) => Text(time)).toList(),
                 ),
               )
             ],
@@ -133,7 +137,9 @@ class _StopWatchPageState extends State<StopWatchPage> {
               // 버튼을 강조하고 싶을 때 사용하는 위젯
               // 오른쪽 아래에 위치한 랩 타임 버튼
               onPressed: () {
-                // 랩타임 눌렀을 때 이벤트
+                setState(() {
+                  _recordLapTime('$sec.$hundredth');
+                });
               },
               child: const Text('랩타임'),
             ),

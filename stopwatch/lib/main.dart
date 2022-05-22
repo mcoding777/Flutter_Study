@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 void main() {
   runApp(const MyApp());
@@ -29,7 +30,47 @@ class StopWatchPage extends StatefulWidget {
 }
 
 class _StopWatchPageState extends State<StopWatchPage> {
+  late Timer _timer; // Timer는 non-nullable => 초기화를 늦추기 위한 late 키워드 사용
+
+  var _time = 0; // 0.01초마다 1씩 증가시킬 정수형 변수
+  var _isRunning = false; // 현재 시작 상태
+
+  List<String> _lapTimes = []; // 랩타임에 표시할 시간을 저장하는 리스트
+
+  @override
+  void dispose() {
+    // 앱이 종료될 때 Timer도 종료시키기
+    _timer?.cancel(); // 경고 발생 : 수신자는 null 일 수 없다
+    super.dispose();
+  }
+
+  void _clickButton() {
+    _isRunning = !_isRunning;
+
+    if (_isRunning) {
+      _start();
+    } else {
+      _pause();
+    }
+  }
+
+  void _start() {
+    _timer = Timer.periodic(const Duration(milliseconds: 10), (timer) {
+      setState(() {
+        _time++;
+      });
+    });
+  }
+
+  void _pause() {
+    _timer?.cancel();
+  }
+
   Widget _buildBody() {
+    var sec = _time ~/ 100; // 초 (몫을 구하는 연산자 ~/)
+    var hundredth =
+        '${_time % 100}'.padLeft(2, '0'); // 1/100초 (2글자로 표현하기 위한 함수 padLeft)
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(top: 30.0),
@@ -41,15 +82,15 @@ class _StopWatchPageState extends State<StopWatchPage> {
                 // 시간을 표시하는 영역
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
-                children: const <Widget>[
+                children: <Widget>[
                   // 여기는 왜 const가 붙어야 할까?
                   // flutter의 위젯, final, const에 대한 것 : https://sudarlife.tistory.com/entry/Flutter-%EC%97%90%EC%84%9C%EC%9D%98-immutable-mutable%ED%95%9C-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A5%BC-immutable-%ED%95%98%EA%B2%8C-%EC%82%AC%EC%9A%A9%ED%95%98%EC%9E%90
                   Text(
                     // 초
-                    '0',
+                    '$sec',
                     style: TextStyle(fontSize: 50.0),
                   ),
-                  Text('00'),
+                  Text(hundredth),
                 ],
               ),
               SizedBox(
@@ -109,9 +150,10 @@ class _StopWatchPageState extends State<StopWatchPage> {
       floatingActionButton: FloatingActionButton(
         // 다른 위젯에 방해 받지 않는, 띄우기 버튼 위젯
         onPressed: () => setState(() {
-          // _clickButton();
+          _clickButton();
         }),
-        child: const Icon(Icons.play_arrow),
+        child:
+            _isRunning ? const Icon(Icons.pause) : const Icon(Icons.play_arrow),
       ),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.centerDocked, // 버튼의 위치 : 아래쪽 가운데

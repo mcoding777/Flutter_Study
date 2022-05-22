@@ -22,7 +22,7 @@
 .settings/
 .vscode/
 
-# Flutter repo-specific
+# Flutter repo-specific~
 /bin/cache/
 /bin/internal/bootstrap.bat
 /bin/internal/bootstrap.sh

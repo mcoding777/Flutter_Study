@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'result.dart';
 
 class BmiMain extends StatefulWidget {
   const BmiMain({Key? key}) : super(key: key);
@@ -72,9 +73,19 @@ class _BmiMainState extends State<BmiMain> {
                   alignment: Alignment.centerRight, // 텍스트 정렬은 가운데
                   child: ElevatedButton(
                     onPressed: () {
-                      // 버튼 누르면 폼에 입력된 값 검증하기
+                      // 버튼 누르면 폼에 입력된 값 검증하기 (form 요소의 모든 검증 결과를 boolean 으로 반환)
                       if (_formKey.currentState!.validate()) {
-                        // 검증 시 어떻게 처리할래?
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BmiResult(
+                              double.parse(_heightController.text
+                                  .trim()), // form 내용은 기본적으로 문자열이기 때문에
+                              double.parse(_weightController.text
+                                  .trim()), // form 내용을 double 타입으로 변환
+                            ),
+                          ),
+                        );
                       }
                     },
                     child: const Text('결과'),

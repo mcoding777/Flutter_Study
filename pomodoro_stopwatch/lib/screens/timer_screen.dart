@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../utils/secondsToString.dart';
+import '../utils/showToast.dart';
 
 enum TimerStatus {
   running, // 작업 중
@@ -28,7 +29,7 @@ class _TimerScreenState extends State<TimerScreen> {
   void initState() {
     super.initState();
     _timerStatus = TimerStatus.stopped;
-    print(_timerStatus.toString());
+    showToast(_timerStatus.toString());
     _timer = WORK_SECONDS;
     _pomodoroCount = 0;
   }
@@ -36,7 +37,7 @@ class _TimerScreenState extends State<TimerScreen> {
   void run() {
     setState(() {
       _timerStatus = TimerStatus.running;
-      print('[=>] ' + _timerStatus.toString());
+      showToast('[=>] ' + _timerStatus.toString());
       runTimer();
     });
   }
@@ -45,14 +46,14 @@ class _TimerScreenState extends State<TimerScreen> {
     setState(() {
       _timer = REST_SECONDS;
       _timerStatus = TimerStatus.resting;
-      print('[=>] ' + _timerStatus.toString());
+      showToast('[=>] ' + _timerStatus.toString());
     });
   }
 
   void pause() {
     setState(() {
       _timerStatus = TimerStatus.paused;
-      print('[=>] ' + _timerStatus.toString());
+      showToast('[=>] ' + _timerStatus.toString());
     });
   }
 
@@ -65,7 +66,7 @@ class _TimerScreenState extends State<TimerScreen> {
     setState(() {
       _timer = WORK_SECONDS;
       _timerStatus = TimerStatus.stopped;
-      print('[=>] ' + _timerStatus.toString());
+      showToast('[=>] ' + _timerStatus.toString());
     });
   }
 
@@ -83,7 +84,7 @@ class _TimerScreenState extends State<TimerScreen> {
             setState(() {
               _pomodoroCount += 1;
             });
-            print('오늘 $_pomodoroCount개의 뽀모도로를 달성했습니다.');
+            showToast('오늘 $_pomodoroCount개의 뽀모도로를 달성했습니다.');
             t.cancel();
             stop();
           } else {
@@ -94,7 +95,7 @@ class _TimerScreenState extends State<TimerScreen> {
           break;
         case TimerStatus.running:
           if (_timer <= 0) {
-            print('작업 완료!');
+            showToast('작업 완료!');
             rest();
           } else {
             setState(() {

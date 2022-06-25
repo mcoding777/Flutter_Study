@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:sprintf/sprintf.dart';
 
 enum TimerStatus {
   running, // 작업 중
@@ -30,6 +31,10 @@ class _TimerScreenState extends State<TimerScreen> {
     print(_timerStatus.toString());
     _timer = WORK_SECONDS;
     _pomodoroCount = 0;
+  }
+
+  String secondsToString(int seconds) {
+    return sprintf("%02d:%02d", [seconds ~/ 60, seconds % 60]);
   }
 
   void run() {

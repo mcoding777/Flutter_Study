@@ -1,13 +1,36 @@
 import 'package:flutter/material.dart';
 
+enum TimerStatus {
+  running, // 작업 중
+  paused, // 일시정지
+  stopped, // 정지
+  resting // 휴식 중
+}
+
 class TimerScreen extends StatefulWidget {
   const TimerScreen({Key? key}) : super(key: key);
 
   @override
-  State<TimerScreen> createState() => _TimerScreen();
+  State<TimerScreen> createState() => _TimerScreenState();
 }
 
-class _TimerScreen extends State<TimerScreen> {
+class _TimerScreenState extends State<TimerScreen> {
+  static const WORK_SECONDS = 25;
+  static const REST_SECONDS = 5;
+
+  late TimerStatus _timerStatus;
+  late int _timer; // 타이머 시간
+  late int _pomodoroCount; // 뽀모도로 갯수
+
+  @override
+  void initState() {
+    super.initState();
+    _timerStatus = TimerStatus.stopped;
+    print(_timerStatus.toString());
+    _timer = WORK_SECONDS;
+    _pomodoroCount = 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     // 러닝 상태일 때 버튼 위젯

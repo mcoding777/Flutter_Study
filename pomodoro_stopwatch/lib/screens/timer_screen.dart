@@ -38,6 +38,43 @@ class _TimerScreen extends State<TimerScreen> {
             style: TextStyle(color: Colors.white, fontSize: 16)),
       ),
     ];
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('뽀모도로 타이머'),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.5,
+            width: MediaQuery.of(context).size.height * 0.6,
+            decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: 1 == 2
+                    ? Colors.green
+                    : Colors.blue // 휴식 중인가? true 초록색 : false 파란색
+                ),
+            child: const Center(
+              child: Text(
+                '00:00',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 48,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: 1 == 2
+                ? const []
+                : 1 == 2
+                    ? _stoppedButtons
+                    : _runningButtons,
+          ),
+        ],
+      ),
+    );
   }
 }

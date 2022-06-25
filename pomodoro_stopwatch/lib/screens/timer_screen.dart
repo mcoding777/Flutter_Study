@@ -181,7 +181,7 @@ class _TimerScreenState extends State<TimerScreen> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: 1 == 2
+            children: _timerStatus == TimerStatus.resting
                 ? const []
                 : _timerStatus == TimerStatus.stopped
                     ? _stoppedButtons

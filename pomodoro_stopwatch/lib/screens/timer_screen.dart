@@ -31,6 +31,42 @@ class _TimerScreenState extends State<TimerScreen> {
     _pomodoroCount = 0;
   }
 
+  void run() {
+    setState(() {
+      _timerStatus = TimerStatus.running;
+      print('[=>] ' + _timerStatus.toString());
+      runTimer();
+    });
+  }
+
+  void rest() {
+    setState(() {
+      _timer = REST_SECONDS;
+      _timerStatus = TimerStatus.resting;
+      print('[=>] ' + _timerStatus.toString());
+    });
+  }
+
+  void pause() {
+    setState(() {
+      _timerStatus = TimerStatus.paused;
+      print('[=>] ' + _timerStatus.toString());
+    });
+  }
+
+  void resume() {
+    // 직관성을 위해 굳이 만든 함수!
+    run();
+  }
+
+  void stop() {
+    setState(() {
+      _timer = WORK_SECONDS;
+      _timerStatus = TimerStatus.stopped;
+      print('[=>] ' + _timerStatus.toString());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // 러닝 상태일 때 버튼 위젯

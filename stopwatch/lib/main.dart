@@ -96,12 +96,11 @@ class _StopWatchPageState extends State<StopWatchPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  // 여기는 왜 const가 붙어야 할까?
                   // flutter의 위젯, final, const에 대한 것 : https://sudarlife.tistory.com/entry/Flutter-%EC%97%90%EC%84%9C%EC%9D%98-immutable-mutable%ED%95%9C-%ED%81%B4%EB%9E%98%EC%8A%A4%EB%A5%BC-immutable-%ED%95%98%EA%B2%8C-%EC%82%AC%EC%9A%A9%ED%95%98%EC%9E%90
                   Text(
                     // 초
                     '$sec',
-                    style: const TextStyle(fontSize: 50.0),
+                    style: TextStyle(fontSize: 50.0),
                   ),
                   Text(hundredth),
                 ],

@@ -118,7 +118,7 @@ class _TimerScreenState extends State<TimerScreen> {
     final List<Widget> _runningButtons = [
       ElevatedButton(
         onPressed: () {
-          _timerStatus == TimerStatus.paused ? resume : pause;
+          _timerStatus == TimerStatus.paused ? resume() : pause();
         },
         style: ElevatedButton.styleFrom(primary: Colors.blue),
         child: Text(
@@ -178,7 +178,7 @@ class _TimerScreenState extends State<TimerScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: 1 == 2
                 ? const []
-                : 1 == 2
+                : _timerStatus == TimerStatus.stopped
                     ? _stoppedButtons
                     : _runningButtons,
           ),

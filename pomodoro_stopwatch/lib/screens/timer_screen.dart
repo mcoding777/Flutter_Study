@@ -45,7 +45,7 @@ class _TimerScreenState extends State<TimerScreen> {
   void run() {
     setState(() {
       _timerStatus = TimerStatus.running;
-      showToast('[=>] ' + _timerStatus.toString());
+      showToast('[=>] $_timerStatus');
       runTimer();
     });
   }
@@ -54,14 +54,14 @@ class _TimerScreenState extends State<TimerScreen> {
     setState(() {
       _time = REST_SECONDS;
       _timerStatus = TimerStatus.resting;
-      showToast('[=>] ' + _timerStatus.toString());
+      showToast('[=>] $_timerStatus');
     });
   }
 
   void pause() {
     setState(() {
       _timerStatus = TimerStatus.paused;
-      showToast('[=>] ' + _timerStatus.toString());
+      showToast('[=>] $_timerStatus');
     });
   }
 
@@ -74,7 +74,7 @@ class _TimerScreenState extends State<TimerScreen> {
     setState(() {
       _time = WORK_SECONDS;
       _timerStatus = TimerStatus.stopped;
-      showToast('[=>] ' + _timerStatus.toString());
+      showToast('[=>] $_timerStatus');
     });
   }
 

@@ -18,8 +18,8 @@ class TimerScreen extends StatefulWidget {
 }
 
 class _TimerScreenState extends State<TimerScreen> {
-  static const WORK_SECONDS = 25;
-  static const REST_SECONDS = 5;
+  static const workSeconds = 25;
+  static const restSeconds = 5;
 
   late TimerStatus _timerStatus;
   late Timer _timer;
@@ -31,7 +31,7 @@ class _TimerScreenState extends State<TimerScreen> {
     super.initState();
     _timerStatus = TimerStatus.stopped;
     showToast(_timerStatus.toString());
-    _time = WORK_SECONDS;
+    _time = workSeconds;
     _pomodoroCount = 0;
   }
 
@@ -52,7 +52,7 @@ class _TimerScreenState extends State<TimerScreen> {
 
   void rest() {
     setState(() {
-      _time = REST_SECONDS;
+      _time = restSeconds;
       _timerStatus = TimerStatus.resting;
       showToast('[=>] $_timerStatus');
     });
@@ -72,7 +72,7 @@ class _TimerScreenState extends State<TimerScreen> {
 
   void stop() {
     setState(() {
-      _time = WORK_SECONDS;
+      _time = workSeconds;
       _timerStatus = TimerStatus.stopped;
       showToast('[=>] $_timerStatus');
     });

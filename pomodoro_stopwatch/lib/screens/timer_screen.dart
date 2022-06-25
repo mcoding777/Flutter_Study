@@ -22,7 +22,8 @@ class _TimerScreenState extends State<TimerScreen> {
   static const REST_SECONDS = 5;
 
   late TimerStatus _timerStatus;
-  late int _timer; // 타이머 시간
+  late Timer _timer;
+  late int _time; // 타이머 시간
   late int _pomodoroCount; // 뽀모도로 갯수
 
   @override
@@ -30,8 +31,15 @@ class _TimerScreenState extends State<TimerScreen> {
     super.initState();
     _timerStatus = TimerStatus.stopped;
     showToast(_timerStatus.toString());
-    _timer = WORK_SECONDS;
+    _time = WORK_SECONDS;
     _pomodoroCount = 0;
+  }
+
+  @override
+  void dispose() {
+    // 앱이 종료될 때 Timer도 종료시키기
+    _timer.cancel();
+    super.dispose();
   }
 
   void run() {
@@ -44,7 +52,7 @@ class _TimerScreenState extends State<TimerScreen> {
 
   void rest() {
     setState(() {
-      _timer = REST_SECONDS;
+      _time = REST_SECONDS;
       _timerStatus = TimerStatus.resting;
       showToast('[=>] ' + _timerStatus.toString());
     });
@@ -64,42 +72,42 @@ class _TimerScreenState extends State<TimerScreen> {
 
   void stop() {
     setState(() {
-      _timer = WORK_SECONDS;
+      _time = WORK_SECONDS;
       _timerStatus = TimerStatus.stopped;
       showToast('[=>] ' + _timerStatus.toString());
     });
   }
 
   void runTimer() async {
-    Timer.periodic(const Duration(seconds: 1), (Timer t) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (_timer) {
       switch (_timerStatus) {
         case TimerStatus.paused:
-          t.cancel();
+          _timer.cancel();
           break;
         case TimerStatus.stopped:
-          t.cancel();
+          _timer.cancel();
           break;
         case TimerStatus.resting:
-          if (_timer <= 0) {
+          if (_time <= 0) {
             setState(() {
               _pomodoroCount += 1;
             });
             showToast('오늘 $_pomodoroCount개의 뽀모도로를 달성했습니다.');
-            t.cancel();
+            _timer.cancel();
             stop();
           } else {
             setState(() {
-              _timer -= 1;
+              _time -= 1;
             });
           }
           break;
         case TimerStatus.running:
-          if (_timer <= 0) {
+          if (_time <= 0) {
             showToast('작업 완료!');
             rest();
           } else {
             setState(() {
-              _timer -= 1;
+              _time -= 1;
             });
           }
           break;
@@ -162,7 +170,7 @@ class _TimerScreenState extends State<TimerScreen> {
                 ),
             child: Center(
               child: Text(
-                secondsToString(_timer),
+                secondsToString(_time),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 48,

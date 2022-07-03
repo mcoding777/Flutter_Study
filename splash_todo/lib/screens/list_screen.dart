@@ -52,7 +52,57 @@ class _ListScreenState extends State<ListScreen> {
           '+',
           style: TextStyle(fontSize: 25),
         ),
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              String title = '';
+              String description = '';
+              return AlertDialog(
+                title: const Text('할 일 추가하기'),
+                content: Container(
+                  height: 200,
+                  child: Column(
+                    children: [
+                      TextField(
+                        onChanged: (value) {
+                          title = value;
+                        },
+                        decoration: const InputDecoration(labelText: '제목'),
+                      ),
+                      TextField(
+                        onChanged: (value) {
+                          description = value;
+                        },
+                        decoration: const InputDecoration(labelText: '설명'),
+                      ),
+                    ],
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        print('[UI] ADD');
+                        todoDefault.addTodo(
+                          Todo(title: title, description: description),
+                        );
+                      });
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('추가'),
+                  ),
+                  TextButton(
+                    child: const Text('취소'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              );
+            },
+          );
+        },
       ),
       body: isLoading
           ? const Center(

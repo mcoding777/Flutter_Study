@@ -35,11 +35,7 @@ class TodoDefault {
     }
   }
 
-  void updateTodo(int id, Todo todo) {
-    for (int i = 0; i < dummyTodos.length; i++) {
-      if (dummyTodos[i].id == id) {
-        dummyTodos[i] = todo;
-      }
-    }
+  void updateTodo(int index, Todo todo) {
+    dummyTodos[index] = todo;
   }
 }

@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:splash_todo/providers/todo_sqlite.dart';
 
 import '../models/todo.dart';
-import '../providers/todo_default.dart';
+import '../providers/todo_sqlite.dart';
 
 class ListScreen extends StatefulWidget {
   const ListScreen({Key? key}) : super(key: key);
@@ -14,16 +15,23 @@ class ListScreen extends StatefulWidget {
 
 class _ListScreenState extends State<ListScreen> {
   List<Todo> todos = [];
-  TodoDefault todoDefault = TodoDefault();
+  TodoSqlite todoSqlite = TodoSqlite();
   bool isLoading = true;
+
+  Future initDb() async {
+    await todoSqlite.initDb().then((value) async {
+      todos = await todoSqlite.getTodos();
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 2), () {
-      todos = todoDefault.getTodos();
-      setState(() {
-        isLoading = false;
+      initDb().then((_) {
+        setState(() {
+          isLoading = false;
+        });
       });
     });
   }
@@ -84,7 +92,7 @@ class _ListScreenState extends State<ListScreen> {
                     onPressed: () {
                       setState(() {
                         print('[UI] ADD');
-                        todoDefault.addTodo(
+                        todoSqlite.addTodo(
                           Todo(title: title, description: description),
                         );
                       });
@@ -183,8 +191,7 @@ class _ListScreenState extends State<ListScreen> {
                                             description: description,
                                           );
                                           setState(() {
-                                            todoDefault.updateTodo(
-                                                index, newTodo);
+                                            todoSqlite.updateTodo(newTodo);
                                           });
                                           Navigator.of(context).pop();
                                         },
@@ -220,7 +227,7 @@ class _ListScreenState extends State<ListScreen> {
                                       TextButton(
                                         onPressed: () async {
                                           setState(() {
-                                            todoDefault.deleteTodo(
+                                            todoSqlite.deleteTodo(
                                                 todos[index].id ?? 0);
                                           });
                                           Navigator.of(context).pop();

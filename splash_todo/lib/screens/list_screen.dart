@@ -89,12 +89,14 @@ class _ListScreenState extends State<ListScreen> {
                 ),
                 actions: [
                   TextButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      await todoSqlite.addTodo(
+                        Todo(title: title, description: description),
+                      );
+                      List<Todo> newTodos = await todoSqlite.getTodos();
                       setState(() {
                         print('[UI] ADD');
-                        todoSqlite.addTodo(
-                          Todo(title: title, description: description),
-                        );
+                        todos = newTodos;
                       });
                       Navigator.of(context).pop();
                     },
@@ -190,8 +192,11 @@ class _ListScreenState extends State<ListScreen> {
                                             title: title,
                                             description: description,
                                           );
+                                          await todoSqlite.updateTodo(newTodo);
+                                          List<Todo> newTodos =
+                                              await todoSqlite.getTodos();
                                           setState(() {
-                                            todoSqlite.updateTodo(newTodo);
+                                            todos = newTodos;
                                           });
                                           Navigator.of(context).pop();
                                         },
@@ -226,9 +231,12 @@ class _ListScreenState extends State<ListScreen> {
                                     actions: [
                                       TextButton(
                                         onPressed: () async {
+                                          await todoSqlite
+                                              .deleteTodo(todos[index].id ?? 0);
+                                          List<Todo> newTodos =
+                                              await todoSqlite.getTodos();
                                           setState(() {
-                                            todoSqlite.deleteTodo(
-                                                todos[index].id ?? 0);
+                                            todos = newTodos;
                                           });
                                           Navigator.of(context).pop();
                                         },

@@ -1,6 +1,10 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'list_screen.dart';
+import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -12,7 +16,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    super.initState();875
+    super.initState();
     Timer(const Duration(seconds: 2), () {
       moveScreen();
     });
@@ -23,10 +27,10 @@ class _SplashScreenState extends State<SplashScreen> {
     await checkLogin().then((isLogin) {
       if (isLogin) {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => ListScreen()));
+            MaterialPageRoute(builder: (context) => const ListScreen()));
       } else {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => LoginScreen()));
+            MaterialPageRoute(builder: (context) => const LoginScreen()));
       }
     });
   }
@@ -35,7 +39,8 @@ class _SplashScreenState extends State<SplashScreen> {
   // Future == 자바스크립트의 promise와 비슷?
   Future<bool> checkLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isLogin = prefs.getBool('isLogin') ?? false; // isLogin 값이 있으면 가져오고, 없으면 false (?? 연산자 => Null 값이 아닌 것을 return)
+    bool isLogin = prefs.getBool('isLogin') ??
+        false; // isLogin 값이 있으면 가져오고, 없으면 false (?? 연산자 => Null 값이 아닌 것을 return)
     print("[*] isLogin : " + isLogin.toString());
     return isLogin;
   }

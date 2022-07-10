@@ -1,7 +1,11 @@
 part of 'counter_bloc.dart';
 
 @immutable
-abstract class CounterState {
+abstract class CountState {
   final int count;
-  const CounterState(this.count);
+  const CountState(this.count);
+}
+
+class CounterState extends CountState {
+  const CounterState(super.count);
 }

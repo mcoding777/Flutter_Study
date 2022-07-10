@@ -13,6 +13,8 @@ class CounterIncrement extends CounterEvent {
 }
 
 class CounterDecrement extends CounterEvent {
+  const CounterDecrement();
+
   @override
   String toString() => '[+] CounterDecrement';
 }
